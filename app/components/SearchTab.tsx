@@ -1,15 +1,11 @@
 "use client"
 import React, { useState, useRef } from 'react';
 
-const BASE_IMAGE_URL = 'http://localhost:8080/static-images/';
+const BASE_IMAGE_URL = 'http://localhost:8080/uploads/';
 
 interface SearchResultData {
   success: boolean;
-  message: string;
-  faceId?: number;
-  faceDbName?: string;
   imagePath?: string;
-  similarityScore?: number;
 }
 
 const SearchTab = () => {
@@ -49,7 +45,7 @@ const SearchTab = () => {
     formData.append('image', selectedSearchImage);
 
     try {
-      const response = await fetch('http://localhost:8080/api/faces/search', {
+      const response = await fetch('http://localhost:8080/api/face/search', {
         method: 'POST',
         body: formData,
       });
@@ -58,7 +54,7 @@ const SearchTab = () => {
 
       if (response.ok && data.success) {
         setSearchResult(data);
-        setMessage(`搜索成功！相似度: ${(data.similarityScore || 0 * 100).toFixed(2)}%`);
+        setMessage(`搜索成功！`);
 
         if (data.imagePath) {
           const filename = data.imagePath.split('/').pop()?.split('\\').pop();
@@ -75,7 +71,7 @@ const SearchTab = () => {
 
 
       } else {
-        setMessage(`搜索失败: ${data.message || '未知错误'}`);
+        setMessage(`搜索失败`);
         setMatchedImageWebUrl(null);
         setSearchResult(null);
       }
@@ -142,14 +138,6 @@ const SearchTab = () => {
               <span className="text-blue-300 text-sm">等待匹配结果</span>
             )}
           </div>
-          {searchResult && searchResult.success && (
-            <div className="mt-4 text-sm text-gray-600 text-center">
-              <p><strong>数据库ID:</strong> {searchResult.faceId}</p>
-              <p><strong>数据库名称:</strong> {searchResult.faceDbName}</p>
-              <p><strong>相似度:</strong> {(searchResult.similarityScore || 0 * 100).toFixed(2)}%</p>
-              <p className="break-all"><strong>原始路径:</strong> {searchResult.imagePath}</p>
-            </div>
-          )}
         </div>
       </div>
 

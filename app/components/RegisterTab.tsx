@@ -36,7 +36,7 @@ const RegisterTab = () => {
     formData.append('image', selectedImage);
 
     try {
-      const response = await fetch('http://localhost:8080/api/faces/register', {
+      const response = await fetch('http://localhost:8080/api/face/register', {
         method: 'POST',
         body: formData,
       });
@@ -46,8 +46,8 @@ const RegisterTab = () => {
       if (response.ok) {
         setMessage(`注册成功: ${textResponse}`);
         setIsSuccess(true);
-        setSelectedImage(null);
-        setImagePreviewUrl(null);
+        // setSelectedImage(null);
+        // setImagePreviewUrl(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
@@ -93,8 +93,7 @@ const RegisterTab = () => {
         </button>
       </div>
 
-      <div className="flex flex-col md:flex-row mt-8 md:space-x-8 space-y-6 md:space-y-0 justify-center"> {/* justify-center 让整个图片行居中 */}
-        {/* 左侧：待搜索图片 */}
+      <div className="flex flex-col md:flex-row mt-8 md:space-x-8 space-y-6 md:space-y-0 justify-center"> 
         <div className="md:w-1/2 flex flex-col items-center">
           <h3 className="text-lg font-semibold mb-3 text-gray-700">待注册图片:</h3>
           <div className="w-64 h-64 border border-gray-300 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
@@ -107,7 +106,6 @@ const RegisterTab = () => {
         </div>
       </div>
 
-      {/* 按钮移到下方，在消息下方 */}
       <button
         onClick={handleSubmit}
         disabled={isLoading || !selectedImage}
