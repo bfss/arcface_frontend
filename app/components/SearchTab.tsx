@@ -5,6 +5,7 @@ const BASE_IMAGE_URL = 'http://localhost:8080/uploads/';
 
 interface SearchResultData {
   success: boolean;
+  personName?: string;
   imagePath?: string;
 }
 
@@ -54,7 +55,7 @@ const SearchTab = () => {
 
       if (response.ok && data.success) {
         setSearchResult(data);
-        setMessage(`搜索成功！`);
+        setMessage(`搜索成功！` + data.personName);
 
         if (data.imagePath) {
           const filename = data.imagePath.split('/').pop()?.split('\\').pop();
